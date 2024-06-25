@@ -15,7 +15,7 @@ class D
 {
     private:
         int val;
-    protected:
+    protected: // protected constructor to ensure abstract class
         D(int x) { val = x; std::cout << "D Constructor, val = " << val << std::endl;}
     public:
         ~D() { std::cout << "D destructor called " << std::endl;}
@@ -24,10 +24,10 @@ class D
 };
 
 
-class P : public D, public IPrintableDevice
+class P : public D, public IPrintableDevice // here class D is an example of inheritance, and interface IPrintableDevice is an example of abstraction adn runtime polymorphism
 {
     public:
-        P() : D(1) { std::cout << "P Constructor" << std::endl;}
+        P() : D(1) { std::cout << "P Constructor" << std::endl;} // we must pass D(1) as the constructor for D requires an integer argument
         ~P() { std::cout << "P destructor called " << std::endl;}
         void print() { std::cout << "Printing..." << std::endl;}
 };
@@ -44,11 +44,11 @@ class S : public D, public IScanner
 class PS: public D, public IPrintableDevice, public IScanner
 {
     public:
-        IPrintableDevice* pobj;
+        IPrintableDevice* pobj; // since it is an interface, we cannot make an object, we make a pointer
         IScanner* sobj;
-        PS(int x,IScanner *sAddress,IPrintableDevice *pAddress) : D(x),sobj{sAddress},pobj{pAddress} 
+        PS(int x,IScanner *sAddress,IPrintableDevice *pAddress) : D(x),sobj{sAddress},pobj{pAddress} // example of constructor injection, a way to perform Dependency Injection
         { 
-            std::cout << "PS Constructor" << std::endl;
+            std::cout << "PS Constructor" << std::endl;  // if we separately create objects of P and S, it would result in tightly coupled code between two concrete implementations. To avoid this, we use Dependency Injection
         }
         ~PS() { std::cout << "PS destructor called " << std::endl;}
         
