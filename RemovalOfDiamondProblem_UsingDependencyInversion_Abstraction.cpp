@@ -55,11 +55,11 @@ class PS: public D, public IPrintableDevice, public IScanner
         void print()
         {
             //delegation
-            pobj.print();
+            pobj->print();
         }
         void scan()
         {
-            sobj.scan();
+            sobj->scan();
         }
 };
  
@@ -77,7 +77,7 @@ int main()
 {
     P pObj;
     S sObj;
-    PS psObj{10};
+    PS psObj{10,&sObj,&pObj};
  
     printTask(&pObj);
     printTask(&psObj);
